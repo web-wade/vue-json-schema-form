@@ -1,14 +1,33 @@
 <template>
-  <div class="hello">122</div>
+  <div class="hello">111</div>
+  <dvi v-for="colum in list" :key="colum.title">{{ colum.title }}</dvi>
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue'
+import { defineComponent, PropType } from 'vue'
+
+interface ColumnProps {
+  id: number
+  title: string
+}
 
 export default defineComponent({
   name: 'HelloWorld',
   props: {
     msg: String,
+    age: {
+      type: Number,
+      required: true,
+    },
+    list: {
+      type: Array as PropType<ColumnProps[]>,
+      required: true,
+    },
+  },
+  setup(props) {
+    return {
+      length: props.list.length,
+    }
   },
 })
 </script>
