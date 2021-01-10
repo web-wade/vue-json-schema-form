@@ -12,7 +12,7 @@ export enum SchemaTypes {
 type SchemaRef = { $ref: string }
 
 export interface Schema {
-  type: SchemaTypes | string
+  type?: SchemaTypes | string
   const?: any
   format?: string
 
@@ -47,6 +47,20 @@ export interface Schema {
   exclusiveMaximum?: number
   exclusiveMinimum?: number
 }
+
+export const FiledPropsDefine = {
+  schema: {
+    type: Object as PropType<Schema>,
+    required: true,
+  },
+  value: {
+    required: true,
+  },
+  onChange: {
+    type: Function as PropType<(v: any) => void>,
+    required: true,
+  },
+} as const
 
 export const CommonWidgetPropsDefine = {
   value: {},
