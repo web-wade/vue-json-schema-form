@@ -42,7 +42,7 @@ export default defineComponent({
         }
       }
 
-      return null
+      return <Component {...props} />
     }
   },
 })
