@@ -4,3 +4,4 @@ yarn.lock
 package.json
 /schema-tests/
 MonacoEditor.tsx
+vue.config.js

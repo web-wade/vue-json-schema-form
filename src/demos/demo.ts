@@ -3,4 +3,5 @@ export default {
   schema: {
     type: 'number',
   },
+  default: 'wade',
 }
