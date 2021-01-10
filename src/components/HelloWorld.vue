@@ -1,6 +1,6 @@
 <template>
   <div class="hello">111</div>
-  <dvi v-for="colum in list" :key="colum.title">{{ colum.title }}</dvi>
+  <dvi v-for="colum in list" :key="colum.id">{{ colum.title }}</dvi>
 </template>
 
 <script lang="ts">
