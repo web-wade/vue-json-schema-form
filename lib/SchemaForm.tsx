@@ -1,4 +1,4 @@
-import { defineComponent, PropType } from 'vue'
+import { defineComponent, PropType, provide } from 'vue'
 
 import { Schema } from './types'
 import SchemaItem from './SchemaItem'
@@ -19,9 +19,22 @@ export default defineComponent({
   },
   name: 'SchemaForm',
   setup(props, { slots, emit, attrs }) {
+    const context: any = {
+      SchemaItem,
+    }
+
+    provide('vjsf', context)
+
     return () => {
       const { schema, value, onChange } = props
-      return <SchemaItem schema={schema} value={value} onChange={onChange} />
+      return (
+        <SchemaItem
+          schema={schema}
+          rootSchema={schema}
+          value={value}
+          onChange={onChange}
+        />
+      )
     }
   },
 })

@@ -1,6 +1,8 @@
-import { defineComponent } from 'vue'
+import { computed, defineComponent } from 'vue'
 import NumberField from './fields/NumberField.vue'
 import StringField from './fields/StringField.vue'
+import ObjectField from './fields/ObjectField'
+import { retrieveSchema } from './utils'
 
 import { FiledPropsDefine, SchemaTypes } from './types'
 
@@ -8,8 +10,15 @@ export default defineComponent({
   props: FiledPropsDefine,
   name: 'SchemaItem',
   setup(props) {
+    const retrievedSchemaRef = computed(() => {
+      const { schema, rootSchema, value } = props
+      return retrieveSchema(schema, rootSchema, value)
+    })
+
     return () => {
       const { schema } = props
+
+      const retrievedSchema = retrievedSchemaRef.value
 
       const type = schema.type || SchemaTypes.STRING
 
@@ -24,13 +33,16 @@ export default defineComponent({
           Component = NumberField
           break
         }
-
+        case SchemaTypes.OBJECT: {
+          Component = ObjectField
+          break
+        }
         default: {
           console.warn(`${type} is not supported`)
         }
       }
 
-      return <Component {...props} />
+      return <Component {...props} schema={retrievedSchema} />
     }
   },
 })
