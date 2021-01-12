@@ -1,5 +1,5 @@
 import { defineComponent, PropType, provide } from 'vue'
-
+import { SchemaFormContextKey } from './context'
 import { Schema } from './types'
 import SchemaItem from './SchemaItem'
 
@@ -23,7 +23,7 @@ export default defineComponent({
       SchemaItem,
     }
 
-    provide('vjsf', context)
+    provide(SchemaFormContextKey, context)
 
     return () => {
       const { schema, value, onChange } = props

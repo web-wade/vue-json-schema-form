@@ -3,7 +3,7 @@
 </template>
 
 <script setup lang="ts">
-import { defineEmit, defineProps } from 'vue'
+import { defineProps } from 'vue'
 
 const props = defineProps({
   schema: {
@@ -18,7 +18,6 @@ const props = defineProps({
     required: true,
   },
 })
-defineEmit(['onChange'])
 
 const handleChange = (e: any) => {
   const value = e.target.value

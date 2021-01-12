@@ -1,4 +1,4 @@
-import { PropType, DefineComponent } from 'vue'
+import { PropType, DefineComponent, defineComponent } from 'vue'
 
 export enum SchemaTypes {
   'NUMBER' = 'number',
@@ -83,6 +83,12 @@ export const CommonWidgetPropsDefine = {
     type: Object as PropType<{ [keys: string]: any }>,
   },
 } as const
+
+export const TypeHelperComponent = defineComponent({
+  props: FiledPropsDefine,
+})
+
+export type CommonFieldType = typeof TypeHelperComponent
 
 export const SelectionWidgetPropsDefine = {
   ...CommonWidgetPropsDefine,

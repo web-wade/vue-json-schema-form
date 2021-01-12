@@ -10,7 +10,7 @@ module.exports = {
     if (!isLib) {
       config.plugin('monaco').use(new MonacoWebpackPlugin())
     }
-    config.plugin('circular').use(new CircularDependencyPlugin())
+    // config.plugin('circular').use(new CircularDependencyPlugin())
   },
   pwa: {},
 }
