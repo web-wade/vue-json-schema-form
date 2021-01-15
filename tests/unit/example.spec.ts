@@ -1,11 +1,12 @@
 import { mount } from '@vue/test-utils'
 
-import JsonSchemaForm, { NumberFiled } from '../../lib'
+import { NumberFiled } from '../../lib'
+import TestComponent from './utils/TestComponent'
 
 describe('JsonSchemaFrom', () => {
   it('should render correct number field', async () => {
     let value = ''
-    const wrapper = mount(JsonSchemaForm, {
+    const wrapper = mount(TestComponent, {
       props: {
         schema: {
           type: 'number',
@@ -16,8 +17,10 @@ describe('JsonSchemaFrom', () => {
         },
       },
     })
+
     const numberFiled = wrapper.findComponent(NumberFiled)
     expect(numberFiled.exists()).toBeTruthy()
+    // await numberFiled.props('onChange')('123')
     const input = numberFiled.find('input')
     input.element.value = '123'
     input.trigger('input')

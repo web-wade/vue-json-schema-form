@@ -1,15 +1,17 @@
 import { mount } from '@vue/test-utils'
 
-import JsonSchemaForm, {
+import {
   SelectionWidget,
   NumberFiled,
   StringField,
   ArrayField,
 } from '../../lib'
 
+import TestComponent from './utils/TestComponent'
+
 describe('ArrayFiled', () => {
   it('should render multi type', () => {
-    const wrapper = mount(JsonSchemaForm, {
+    const wrapper = mount(TestComponent, {
       props: {
         schema: {
           type: 'array',
@@ -36,7 +38,7 @@ describe('ArrayFiled', () => {
   })
 
   it('should render single type', () => {
-    const wrapper = mount(JsonSchemaForm, {
+    const wrapper = mount(TestComponent, {
       props: {
         schema: {
           type: 'array',
@@ -59,7 +61,7 @@ describe('ArrayFiled', () => {
   })
 
   it('should render single type', () => {
-    const wrapper = mount(JsonSchemaForm, {
+    const wrapper = mount(TestComponent, {
       props: {
         schema: {
           type: 'array',
