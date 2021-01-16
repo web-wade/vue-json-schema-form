@@ -76,6 +76,6 @@ export default {
     age: 75,
     bio: 'Roundhouse kicking asses since 1940',
     password: 'noneed',
-    singleTypeArray: [{ name: 'wade', age: 12 }],
+    singleTypeArray: [{ name: 'jokcy', age: 12 }],
   },
 }

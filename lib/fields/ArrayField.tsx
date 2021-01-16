@@ -1,16 +1,17 @@
 import { defineComponent, PropType } from 'vue'
 import { createUseStyles } from 'vue-jss'
 
-import { FiledPropsDefine, Schema } from '../types'
+import { FiledPropsDefine, Schema, SelectionWidgetNames } from '../types'
 
 import { useVJSFContext } from '../context'
+import { getWidget } from '../theme'
+import { isObject } from 'lib/utils'
 
-import SelectionWidget from '../widgets/Selection'
+// import SelectionWidget from '../widgets/Selection'
 
 const useStyles = createUseStyles({
   container: {
     border: '1px solid #eee',
-    margin: '10px 0',
   },
   actions: {
     background: '#eee',
@@ -53,6 +54,9 @@ const ArrayItemWrapper = defineComponent({
   },
   setup(props, { slots }) {
     const classesRef = useStyles()
+
+    const context = useVJSFContext()
+
     const handleAdd = () => props.onAdd(props.index)
     const handleDown = () => props.onDown(props.index)
     const handleUp = () => props.onUp(props.index)
@@ -84,6 +88,22 @@ const ArrayItemWrapper = defineComponent({
   },
 })
 
+/**
+ * {
+ *   items: { type: string },
+ * }
+ *
+ * {
+ *   items: [
+ *    { type: string },
+ *    { type: number }
+ *   ]
+ * }
+ *
+ * {
+ *   items: { type: string, enum: ['1', '2'] },
+ * }
+ */
 export default defineComponent({
   name: 'ArrayField',
   props: FiledPropsDefine,
@@ -140,8 +160,12 @@ export default defineComponent({
       props.onChange(arr)
     }
 
+    const SelectionWidgetRef = getWidget(SelectionWidgetNames.SelectionWidget)
+
     return () => {
-      const { schema, rootSchema, value } = props
+      // const SelectionWidget = context.theme.widgets.SelectionWidget
+      const SelectionWidget = SelectionWidgetRef.value
+      const { schema, rootSchema, value, errorSchema, uiSchema } = props
 
       const SchemaItem = context.SchemaItem
 
@@ -152,12 +176,18 @@ export default defineComponent({
         const items: Schema[] = schema.items as any
         const arr = Array.isArray(value) ? value : []
         return items.map((s: Schema, index: number) => {
+          const itemsUiSchema = uiSchema.items
+          const us = Array.isArray(itemsUiSchema)
+            ? itemsUiSchema[index] || {}
+            : itemsUiSchema || {}
           return (
             <SchemaItem
               schema={s}
+              uiSchema={us}
               key={index}
               rootSchema={rootSchema}
               value={arr[index]}
+              errorSchema={errorSchema[index] || {}}
               onChange={(v: any) => handleArrayItemChange(v, index)}
             />
           )
@@ -176,6 +206,8 @@ export default defineComponent({
             >
               <SchemaItem
                 schema={schema.items as Schema}
+                uiSchema={(uiSchema.items as any) || {}}
+                errorSchema={errorSchema[index] || {}}
                 value={v}
                 key={index}
                 rootSchema={rootSchema}
@@ -195,6 +227,8 @@ export default defineComponent({
             onChange={props.onChange}
             value={props.value}
             options={options}
+            errors={errorSchema.__errors}
+            schema={schema}
           />
         )
       }

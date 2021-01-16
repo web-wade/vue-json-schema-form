@@ -1,8 +1,26 @@
-import { defineComponent } from 'vue'
+import { defineComponent, DefineComponent } from 'vue'
 
-import { FiledPropsDefine } from '../types'
+import { FiledPropsDefine, CommonFieldType } from '../types'
 import { isObject } from '../utils'
-import { useVJSFContext } from '../context'
+import { SchemaFormContextKey, useVJSFContext } from '../context'
+
+// import SchemaItem from '../SchemaItem'
+
+// console.log(SchemaItem)
+
+const schema = {
+  type: 'object',
+  properties: {
+    name: {
+      type: 'string',
+    },
+    age: {
+      type: 'number',
+    },
+  },
+}
+
+type A = DefineComponent<typeof FiledPropsDefine, {}, {}>
 
 export default defineComponent({
   name: 'ObjectField',
@@ -23,7 +41,7 @@ export default defineComponent({
     }
 
     return () => {
-      const { schema, rootSchema, value } = props
+      const { schema, rootSchema, value, errorSchema, uiSchema } = props
 
       const { SchemaItem } = context
 
@@ -34,8 +52,10 @@ export default defineComponent({
       return Object.keys(properties).map((k: string, index: number) => (
         <SchemaItem
           schema={properties[k]}
+          uiSchema={uiSchema.properties ? uiSchema.properties[k] || {} : {}}
           rootSchema={rootSchema}
           value={currentValue[k]}
+          errorSchema={errorSchema[k] || {}}
           key={index}
           onChange={(v: any) => handleObjectFieldChange(k, v)}
         />

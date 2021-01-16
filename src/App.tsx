@@ -8,6 +8,9 @@ import demos from './demos'
 import SchemaForm, { ThemeProvider } from '../lib'
 import themeDefault from '../lib/theme-default'
 
+import customFormat from './plugins/customFormat'
+import customKeywords from './plugins/customKeyword'
+
 // TODO: 在lib中export
 type Schema = any
 type UISchema = any
@@ -192,8 +195,14 @@ export default defineComponent({
               <ThemeProvider theme={themeDefault}>
                 <SchemaForm
                   schema={demo.schema}
+                  uiSchema={demo.uiSchema || {}}
                   onChange={handleChange}
                   value={demo.data}
+                  contextRef={contextRef}
+                  ref={nameRef}
+                  customFormats={customFormat}
+                  customKeywords={customKeywords}
+                  customValidate={demo.customValidate}
                 />
               </ThemeProvider>
               {/* <SchemaForm
