@@ -2,24 +2,21 @@
   <input type="text" :value="value" @input="handleChange" />
 </template>
 
-<script setup lang="ts">
-import { defineProps } from 'vue'
+<script lang="ts" setup="props">
+import { ref } from 'vue'
+import { FiledPropsDefine, Schema } from '../types'
 
-const props = defineProps({
-  schema: {
-    type: Object,
-    required: true,
-  },
-  value: {
-    required: true,
-  },
-  onChange: {
-    type: Function,
-    required: true,
-  },
-})
+export default {
+  props: FiledPropsDefine,
+}
 
-const handleChange = (e: any) => {
+declare const props: {
+  value: any
+  onChange: (v: string) => void
+  schema: Schema
+}
+
+export const handleChange = (e: any) => {
   console.log(e)
   props.onChange(e.target.value)
 }

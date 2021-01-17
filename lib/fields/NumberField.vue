@@ -1,25 +1,24 @@
 <template>
-  <input type="number" :value="value" @input="handleChange" />
+  <input :value="value" type="number" @input="handleChange" />
 </template>
 
-<script setup lang="ts">
-import { defineProps } from 'vue'
+<script lang="ts" setup="props">
+import { FiledPropsDefine, Schema } from '../types'
 
-const props = defineProps({
-  schema: {
-    type: Object,
-    required: true,
-  },
-  value: {
-    required: true,
-  },
-  onChange: {
-    type: Function,
-    required: true,
-  },
-})
+console.log('------------->')
 
-const handleChange = (e: any) => {
+export default {
+  name: 'NumberFeild',
+  props: FiledPropsDefine,
+}
+
+declare const props: {
+  value: any
+  onChange: (v: any) => void
+  schema: Schema
+}
+
+export const handleChange = (e: any) => {
   const value = e.target.value
 
   const num = Number(value)

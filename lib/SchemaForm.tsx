@@ -17,12 +17,17 @@ import {
   CustomFormat,
   CustomKeyword,
   Schema,
+  SchemaTypes,
+  Theme,
   UISchema,
 } from './types'
 
 import SchemaItem from './SchemaItem'
 import { SchemaFormContextKey } from './context'
 import { validateFormData, ErrorSchema } from './validator'
+import keyword from '@/plugins/customKeyword'
+
+type A = typeof SchemaItem
 
 interface ContextRef {
   doValidate: () => Promise<{
@@ -73,14 +78,14 @@ export default defineComponent({
     },
   },
   name: 'SchemaForm',
-  setup(props) {
+  setup(props, { slots, emit, attrs }) {
     const handleChange = (v: any) => {
       props.onChange(v)
     }
 
     const errorSchemaRef: Ref<ErrorSchema> = shallowRef({})
 
-    const validatorRef: Ref<Ajv> = shallowRef() as any
+    const validatorRef: Ref<Ajv.Ajv> = shallowRef() as any
 
     watchEffect(() => {
       validatorRef.value = new Ajv({

@@ -1,5 +1,5 @@
 import { PropType, defineComponent, DefineComponent } from 'vue'
-import { FormatDefinition } from 'ajv'
+import { FormatDefinition, CompilationContext } from 'ajv'
 import { ErrorSchema } from './validator'
 
 export enum SchemaTypes {

@@ -21,7 +21,7 @@ export default defineComponent({
   setup(props) {
     const currentValueRef = ref(props.value)
 
-    watch(currentValueRef, (newv) => {
+    watch(currentValueRef, (newv, oldv) => {
       if (newv !== props.value) {
         props.onChange(newv)
       }

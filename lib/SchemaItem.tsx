@@ -1,26 +1,37 @@
-import { computed, defineComponent } from 'vue'
-import NumberField from './fields/NumberField'
+import { computed, defineComponent, PropType } from 'vue'
+
+import { Schema, SchemaTypes, FiledPropsDefine } from './types'
+// import StringField from './fields/StringField'
 import StringField from './fields/StringField'
+import NumberField from './fields/NumberField'
+
 import ObjectField from './fields/ObjectField'
-import { retrieveSchema } from './utils'
 import ArrayField from './fields/ArrayField'
-import { FiledPropsDefine, SchemaTypes } from './types'
+
+import { retrieveSchema } from './utils'
+import { useVJSFContext } from './context'
 
 export default defineComponent({
-  props: FiledPropsDefine,
   name: 'SchemaItem',
+  props: FiledPropsDefine,
   setup(props) {
+    const formContext = useVJSFContext()
+
     const retrievedSchemaRef = computed(() => {
       const { schema, rootSchema, value } = props
-      return retrieveSchema(schema, rootSchema, value)
+      return formContext.transformSchemaRef.value(
+        retrieveSchema(schema, rootSchema, value),
+      )
     })
 
     return () => {
-      const { schema } = props
+      const { schema, rootSchema, value } = props
 
       const retrievedSchema = retrievedSchemaRef.value
 
-      const type = schema.type || SchemaTypes.STRING
+      // TODO: 如果type没有指定，我们需要猜测这个type
+
+      const type = schema.type
 
       let Component: any
 

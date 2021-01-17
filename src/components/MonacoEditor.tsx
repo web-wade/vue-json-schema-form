@@ -1,6 +1,6 @@
 /* eslint no-use-before-define: 0 */
 
-import { defineComponent, ref, onMounted, watch, onBeforeUnmount, shallowRef } from 'vue'
+import { defineComponent, ref, onMounted, watch, onBeforeUnmount, shallowReadonly, shallowRef } from 'vue'
 
 import * as Monaco from 'monaco-editor'
 

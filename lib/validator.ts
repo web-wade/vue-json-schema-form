@@ -1,4 +1,4 @@
-import Ajv, { ErrorObject } from 'ajv'
+import Ajv from 'ajv'
 import toPath from 'lodash.topath'
 const i18n = require('ajv-i18n') // eslint-disable-line
 
@@ -9,7 +9,7 @@ interface TransformedErrorObject {
   name: string
   property: string
   message: string | undefined
-  params: Record<string, any>
+  params: Ajv.ErrorParameters
   schemaPath: string
 }
 
@@ -34,6 +34,11 @@ function toErrorSchema(errors: TransformedErrorObject[]) {
       path.splice(0, 1)
     }
 
+    // {
+    //   obj: {
+    //     a: {}
+    //   }
+    // } // /obj/a
     for (const segment of path.slice(0)) {
       if (!(segment in parent)) {
         ;(parent as any)[segment] = {}
@@ -56,10 +61,7 @@ function toErrorSchema(errors: TransformedErrorObject[]) {
 }
 
 function transformErrors(
-  errors:
-    | ErrorObject<string, Record<string, any>, unknown>[]
-    | null
-    | undefined,
+  errors: Ajv.ErrorObject[] | null | undefined,
 ): TransformedErrorObject[] {
   if (errors === null || errors === undefined) return []
 
@@ -75,7 +77,7 @@ function transformErrors(
 }
 
 export async function validateFormData(
-  validator: Ajv,
+  validator: Ajv.Ajv,
   formData: any,
   schema: Schema,
   locale = 'zh',
@@ -134,10 +136,10 @@ export async function validateFormData(
 function createErrorProxy() {
   const raw = {}
   return new Proxy(raw, {
-    get(target, key, receiver) {
+    get(target, key, reciver) {
       if (key === 'addError') {
         return (msg: string) => {
-          const __errors = Reflect.get(target, '__errors', receiver)
+          const __errors = Reflect.get(target, '__errors', reciver)
           if (__errors && Array.isArray(__errors)) {
             __errors.push(msg)
           } else {
@@ -145,7 +147,7 @@ function createErrorProxy() {
           }
         }
       }
-      const res = Reflect.get(target, key, receiver)
+      const res = Reflect.get(target, key, reciver)
       if (res === undefined) {
         const p: any = createErrorProxy()
         ;(target as any)[key] = p

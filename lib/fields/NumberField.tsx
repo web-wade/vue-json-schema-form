@@ -4,7 +4,7 @@ import { defineComponent } from 'vue'
 import { getWidget } from '../theme'
 
 export default defineComponent({
-  name: 'NumberField',
+  name: 'NumberFeild',
   props: FiledPropsDefine,
   setup(props) {
     const handleChange = (v: string) => {

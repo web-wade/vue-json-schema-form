@@ -12,6 +12,8 @@ import {
   Theme,
   SelectionWidgetNames,
   CommonWidgetNames,
+  SelectionWidgetDefine,
+  UISchema,
   CommonWidgetDefine,
   FiledPropsDefine,
 } from './types'
@@ -44,7 +46,10 @@ export function getWidget<T extends SelectionWidgetNames | CommonWidgetNames>(
   const formContext = useVJSFContext()
 
   if (props) {
-    const { schema } = props
+    const { uiSchema, schema } = props
+    if (uiSchema?.widget && isObject(uiSchema.widget)) {
+      return ref(uiSchema.widget as CommonWidgetDefine)
+    }
     if (schema.format) {
       if (formContext.formatMapRef.value[schema.format]) {
         return ref(formContext.formatMapRef.value[schema.format])

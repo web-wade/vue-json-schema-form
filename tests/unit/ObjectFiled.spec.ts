@@ -1,5 +1,8 @@
-import { mount } from '@vue/test-utils'
-import { NumberFiled, StringField } from '../../lib'
+import { mount, shallowMount } from '@vue/test-utils'
+import { defineComponent, h } from 'vue'
+
+import JsonSchemaForm, { NumberFiled, StringField } from '../../lib'
+
 import TestComponent from './utils/TestComponent'
 
 describe('ObjectFiled', () => {
@@ -40,7 +43,7 @@ describe('ObjectFiled', () => {
       props: {
         schema,
         value: value,
-        onChange: (v: any) => {
+        onChange: (v) => {
           value = v
         },
       },
@@ -64,7 +67,7 @@ describe('ObjectFiled', () => {
       props: {
         schema,
         value: value,
-        onChange: (v: any) => {
+        onChange: (v) => {
           value = v
         },
       },

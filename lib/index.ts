@@ -1,3 +1,5 @@
+import { defineComponent, h } from 'vue'
+
 import SchemaFrom from './SchemaForm'
 import NumberFiled from './fields/NumberField'
 import StringField from './fields/StringField'
